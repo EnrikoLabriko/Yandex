@@ -23,7 +23,6 @@ var lookup = function(key, word, lang, callback) {
 		}
 	).done(function(data) {
 		callback.data = data;
-		//console.log(callback.data);
 		callback();
 	}).fail(function() {
 		console.log('Failed to request Yandex');
@@ -36,38 +35,32 @@ $(document).ready(function() {
 			$('#pos').empty();
 			$('#title').empty();
 			var word = $('input[name=word]').val();
-			//$('#test').html(word);
-			//console.log('ololoasadas'.match('lo'));
-			console.log(word);
 			lookup(myKey, word, 'ru-en', translation);
-			$('#title').append('<h3 id="toc-variables" class="head-toc head-toc-start">'+word+'</h3><button type="button" id="more" class="btn btn-round">Show/hide details</button>');
-	})
+			$('#title').
+				append('<h3 id="toc-variables" class="head-toc head-toc-start">'+word+'</h3>' +
+				'<button type="button" id="more" class="btn btn-round">Show/hide details</button>');
+	});
 	$(document).on('click', '#more', function() {
 		$('.hide').toggleClass('show');
-	})
+	});
 	$(document).on('click', '.close', function() {
 		$(this).parent().remove();
 	})
 });
 
 a = [];
-trololo = [];
 
 var translation = function() {
 	if (translation.data.def.length === 0) {
-		$('#inputWord').addClass('input-error')
-		$('#title').html('<div class="message message-error"><span class="close"></span>Not found. Please try again.</div>')
+		$('#inputWord').addClass('input-error');
+		$('#title')
+			.html('<div class="message message-error"><span class="close"></span>Not found. Please try again.</div>');
 	} else {
 		$('#inputWord').addClass('input-success')
 	}
-	console.log(translation.data);
-	console.log('ololo');
 	def = translation.data['def'];
-	console.log(def);
-	console.log(def[0].pos);
 	pos = $('#pos');
 	for (i=0; i<def.length; i++) {
-		//console.log(def[i].pos);
 		pos.append('<li>'+def[i].pos+'<ol id="tr'+i+'"></ol></li>');
 		for (j=0; j<def[i].tr.length; j++) {
 			$("#tr"+i+"").append('<li>'+def[i].tr[j].text+'</li>');
@@ -106,18 +99,4 @@ var translation = function() {
 			}
 		}	
 	}
-	// $('.mean').before('<p>Means</p>')
-	// $('.ex').before('<p>Examples</p>')
-	// $('.syn').before('<p>Synonyms</p>')
 };
-
-// $(document).ready(function() {
-// 	$(document).on('click', '#more', function() {
-// 		$('.mean').show();
-// 	})
-// })
-
-// b = [];
-// b.push(43);
-// console.log('bdsadas');
-// console.log(b);
